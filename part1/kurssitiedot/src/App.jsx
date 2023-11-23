@@ -1,10 +1,10 @@
 const Header = (props) => {
   return (
-    <h2>
+    <h1>
       <p>
         {props.course}
       </p>
-    </h2>
+    </h1>
   )
 }
 
