@@ -10,19 +10,16 @@ const App = () => {
   const handleGoodClick = () => {
     const updateGood = good + 1
     setGood(updateGood)
-    console.log("updated good is after pressing:", updateGood)
   }
 
   const handleNeutralClick = () => {
     const updateNeutral = neutral + 1
     setNeutral(updateNeutral)
-    console.log("updated neutral is after pressing:", updateNeutral)
   }
 
   const handleBadClick = () => {
     const updateBad = bad + 1
     setBad(updateBad)
-    console.log("updated bad is after pressing:", updateBad)
   }
 
   return (
@@ -32,7 +29,9 @@ const App = () => {
       <button onClick={handleNeutralClick}>neutral</button>
       <button onClick={handleBadClick}>bad</button>
       <Title text="statistics"/>
-      code here
+      good: {good}<br></br>
+      neutral: {neutral}<br></br>
+      bad: {bad}
     </div>
   )
 }
