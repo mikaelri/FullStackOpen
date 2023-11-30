@@ -7,6 +7,8 @@ const Statistics = ({good, neutral, bad}) => {
   const averageClicks = totalClicks === 0 ? 0 : (good - bad) / totalClicks
   const positiveClicks = totalClicks === 0 ? 0 : (good / totalClicks) * 100
 
+  if (totalClicks === 0){return <>No feedback given</>}
+
   return (
   <div>
       good {good}<br></br>
@@ -37,7 +39,6 @@ const App = () => {
   const handleBadClick = () => {
     const updateBad = bad + 1
     setBad(updateBad)
-    console.log("bad is:", updateBad);
   };
 
   return (
