@@ -7,13 +7,17 @@ const Button = ({ handleClick, text }) => (
 );
 
 const StatisticLine = ({text, value}) => {
-  return (<div>{text} {value} <br /> </div>);
+  return (<div style= {{display: 'flex', justifyContent: "space-between", width: "150px"}}>
+  <span>{text}</span>
+  <span>{value}</span>
+  </div>
+  );
 };
 
 const Statistics = ({good, neutral, bad}) => {
   const totalClicks = good + neutral + bad
-  const averageClicks = totalClicks === 0 ? 0 : (good - bad) / totalClicks
-  const positiveClicks = totalClicks === 0 ? 0 : (good / totalClicks) * 100 + " %"
+  const averageClicks = totalClicks === 0 ? 0 : ((good - bad) / totalClicks).toFixed(1)
+  const positiveClicks = totalClicks === 0 ? 0 : ((good / totalClicks) * 100).toFixed(1) + " %"
 
   if (totalClicks === 0){return <>No feedback given</>}
   return(
@@ -46,15 +50,21 @@ const App = () => {
   };
 
   return (
-    <div>
-      <Title text="give feedback"/>
-      <Button handleClick={handleGoodClick} text="good" />
-      <Button handleClick={handleNeutralClick} text="neutral" />
-      <Button handleClick={handleBadClick} text="bad" />
-      <Title text="statistics"/>
-      <Statistics good={good} neutral={neutral} bad={bad} />
-    </div>
-  )
+    <table>
+      <tbody>
+        <tr>
+          <td>
+          <Title text="give feedback"/>
+          <Button handleClick={handleGoodClick} text="good" />
+          <Button handleClick={handleNeutralClick} text="neutral" />
+          <Button handleClick={handleBadClick} text="bad" />
+          <Title text="statistics"/>
+          <Statistics good={good} neutral={neutral} bad={bad} />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
 }
 
 export default App
