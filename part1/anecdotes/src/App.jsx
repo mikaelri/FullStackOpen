@@ -55,9 +55,7 @@ const App = () => {
       <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
       <Button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text="generate anecdote"/>
       <Button onClick={handleVote} text="vote"/>
-
       <Title text="Anecdote with most votes" />
-
       <MaxVoteFinder votes={votes} anecdote={anecdotes} />
     </div>
   );
