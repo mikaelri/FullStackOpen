@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const Title = ({text}) => <h2>{text}</h2>;
+
 const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>;
 };
@@ -7,11 +9,23 @@ const Button = ({ onClick, text }) => {
 const Anecdote = ({ anecdote, votes }) => {
   return(
     <div>
-      <p>{anecdote}</p>
+      {anecdote}<br></br>
       has {votes} votes
     </div>
     );
 };
+
+function MaxVoteFinder({ votes, anecdote}) {
+const maxVotes = Math.max(...votes)
+const maxVoteSelector = votes.indexOf(maxVotes)
+
+return (
+  <div>
+    {anecdote[maxVoteSelector]}<br></br>
+    has {maxVotes} votes
+  </div>
+)
+}
 
 const App = () => {
   const anecdotes = [
@@ -28,6 +42,7 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
 
+
   const handleVote = () => {
     const newVotes = [...votes];
     newVotes[selected] += 1;
@@ -36,9 +51,14 @@ const App = () => {
 
   return (
     <div>
+      <Title text="Anecdote of the day" />
       <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
       <Button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text="generate anecdote"/>
       <Button onClick={handleVote} text="vote"/>
+
+      <Title text="Anecdote with most votes" />
+
+      <MaxVoteFinder votes={votes} anecdote={anecdotes} />
     </div>
   );
 };
