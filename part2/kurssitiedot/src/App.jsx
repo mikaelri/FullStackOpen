@@ -5,15 +5,11 @@ const Course = ({course}) => {
   return (
     <div>
       <Header course={course} />
-
-      <ul>
       {course.parts.map(part => 
-          <li key={part.id}>
-            <p>{part.name} {part.exercises}</p>
-            </li>
+          <p key={part.id}>
+            {part.name} {part.exercises}
+            </p>
         )}
-      </ul>
-
     </div>
 
   )
@@ -39,6 +35,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
