@@ -28,11 +28,12 @@ const handleNameChange = (event) => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
+      <div>
         {persons.map((person, id) => (
-        <li key={id}>{person.name}</ li>
+        <p key={id}>{person.name}</ p>
         ))}
-      </ul>
+      </div>
+
 
     </div>
   )
