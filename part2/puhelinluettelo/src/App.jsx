@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from '../components/Filter.jsx'
 import FilterResults from '../components/FilterResults.jsx'
 import AddNewPerson from '../components/AddPersons.jsx'
@@ -17,31 +18,41 @@ const App = () => {
     setShowFiltered(filtered);
   };
 
-const addPerson = (event) => {
-  event.preventDefault();
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+        setShowFiltered(response.data)
+      })
+  
+  }, []);
 
-    if (persons.some(person => person.name === newName)) {
-    alert(`${newName} is already added to phonebook`)
-    return };
+  const addPerson = (event) => {
+    event.preventDefault();
 
-  const updatedPersons = [...persons, {name: newName, number: newNumber}];
-  setPersons(updatedPersons);
-  setNewNumber('');
-  setNewName('');
+      if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return };
 
-  const filtered = updatedPersons.filter(person =>
-    person.name.toLowerCase().includes(filterValue.toLowerCase())
-  );
-  setShowFiltered(filtered);
-};
+    const updatedPersons = [...persons, {name: newName, number: newNumber}];
+    setPersons(updatedPersons);
+    setNewNumber('');
+    setNewName('');
 
-const handleNameChange = (event) => {
-  setNewName(event.target.value)
+    const filtered = updatedPersons.filter(person =>
+      person.name.toLowerCase().includes(filterValue.toLowerCase())
+    );
+    setShowFiltered(filtered);
   };
 
-const handleNumberChange = (event) => {
-  setNewNumber(event.target.value)
-};
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
+    };
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  };
 
   return (
     <div>
