@@ -16,7 +16,7 @@ const App = () => {
     setFilterValue(event.target.value);
 
     const filtered = persons.filter(person => 
-      person && person.name && person.name.toLowerCase().includes(value?.toLowerCase()));
+      person?.name?.toLowerCase().includes(value?.toLowerCase()));
     setShowFiltered(filtered);
   };
 
@@ -42,8 +42,16 @@ const App = () => {
     setNewNumber('');
     setNewName('');
 
+    axios
+    .post('http://localhost:3001/persons',{name: newName, number: newNumber})
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
+
     const filtered = updatedPersons.filter(person =>
-      person && person.name && person.name.toLowerCase().includes(filterValue.toLowerCase())
+      person?.name?.toLowerCase().includes(filterValue.toLowerCase())
     );
     setShowFiltered(filtered);
   };
