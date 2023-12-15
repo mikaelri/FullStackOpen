@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-import Filter from '../components/Filter.jsx'
-import FilterResults from '../components/FilterResults.jsx'
-import AddNewPerson from '../components/AddPersons.jsx'
+import Filter from './components/Filter.jsx'
+import FilterResults from './components/FilterResults.jsx'
+import AddNewPerson from './components/AddPersons.jsx'
+import personService from './services/persons.js'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -21,40 +21,40 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-        setShowFiltered(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+        setShowFiltered(initialPersons)
       })
-  
   }, []);
 
   const addPerson = (event) => {
     event.preventDefault();
 
-      if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-      return };
+    const personObject = {
+      name: newName,
+      number: newNumber
+    };
 
-    const updatedPersons = [...persons, {name: newName, number: newNumber}];
-    setPersons(updatedPersons);
-    setNewNumber('');
-    setNewName('');
-
-    axios
-    .post('http://localhost:3001/persons',{name: newName, number: newNumber})
-    .then(response => {
-      setPersons(persons.concat(response.data))
-      setNewName('')
-      setNewNumber('')
-    })
-
-    const filtered = updatedPersons.filter(person =>
-      person?.name?.toLowerCase().includes(filterValue.toLowerCase())
-    );
-    setShowFiltered(filtered);
-  };
+    if (persons.some(person => person.name === newName)) {
+    alert(`${newName} is already added to phonebook`)
+    return 
+  } else {
+      personService
+        .create(personObject)
+        .then(response => {
+        setPersons(persons.concat(response))
+        setNewNumber('');
+        setNewName('');
+        
+        const filtered = persons.concat(response).filter(person =>
+          person?.name?.toLowerCase().includes(filterValue.toLowerCase())
+        );
+        setShowFiltered(filtered);
+      })
+    }
+};
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
