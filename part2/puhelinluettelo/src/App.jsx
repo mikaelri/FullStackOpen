@@ -9,12 +9,14 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFilterValue] = useState('');
-  const [showFiltered, setShowFiltered] = useState(persons);
+  const [showFiltered, setShowFiltered] = useState([]);
 
   const handlefilterChange = (event) => {
     const value = event.target.value;
     setFilterValue(event.target.value);
-    const filtered = persons.filter((person) => person.name.toLowerCase().includes(value.toLowerCase()));
+
+    const filtered = persons.filter(person => 
+      person && person.name && person.name.toLowerCase().includes(value?.toLowerCase()));
     setShowFiltered(filtered);
   };
 
@@ -41,7 +43,7 @@ const App = () => {
     setNewName('');
 
     const filtered = updatedPersons.filter(person =>
-      person.name.toLowerCase().includes(filterValue.toLowerCase())
+      person && person.name && person.name.toLowerCase().includes(filterValue.toLowerCase())
     );
     setShowFiltered(filtered);
   };
