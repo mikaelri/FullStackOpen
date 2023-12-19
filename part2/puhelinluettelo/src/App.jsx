@@ -29,32 +29,48 @@ const App = () => {
       })
   }, []);
 
-  const addPerson = (event) => {
-    event.preventDefault();
+  const addPerson = (person) => {
+    person.preventDefault();
 
     const personObject = {
       name: newName,
       number: newNumber
     };
 
-    if (persons.some(person => person.name === newName)) {
-    alert(`${newName} is already added to phonebook`)
-    return 
-  } else {
+    const existingPerson = persons.find(person => person.name === newName)
+
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(existingPerson.id, personObject)
+          .then(response => {
+            setPersons(persons.map(person =>
+              person.id !== existingPerson.id ? person : response
+            ));
+            setNewNumber('');
+            setNewName('');
+          })
+          .catch(error => {
+            console.error("Error updating person:", error);
+          });
+      }
+    } else {
       personService
         .create(personObject)
         .then(response => {
         setPersons(persons.concat(response))
         setNewNumber('');
         setNewName('');
-        
-        const filtered = persons.concat(response).filter(person =>
-          person?.name?.toLowerCase().includes(filterValue.toLowerCase())
-        );
-        setShowFiltered(filtered);
       })
     }
   };
+
+  useEffect(() => {
+    const filtered = persons.filter((person) =>
+    person?.name?.toLowerCase().includes(filterValue.toLowerCase())
+    );
+    setShowFiltered(filtered);
+  }, [persons, filterValue]);
 
   const handlePersonDelete = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
