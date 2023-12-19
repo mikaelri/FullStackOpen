@@ -54,7 +54,20 @@ const App = () => {
         setShowFiltered(filtered);
       })
     }
-};
+  };
+
+  const handlePersonDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService.remove(person.id)
+        .then(() => {
+          setPersons(prevPersons => prevPersons.filter(p => p.id !== person.id));
+          setShowFiltered(prevFiltered => prevFiltered.filter(p => p.id !== person.id));
+          alert(`${person.name} was deleted from the phonebook`);
+        })
+        .catch(error => {console.error("Error deleting person:", error);
+        });
+    }
+  };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -63,6 +76,7 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   };
+
 
   return (
     <div>
@@ -77,7 +91,7 @@ const App = () => {
         addPerson={addPerson}
         />
       <h2>Numbers</h2>
-      <FilterResults showFiltered={showFiltered}/>
+      <FilterResults showFiltered={showFiltered} handlePersonDelete={handlePersonDelete}/>
     </div>
   )
 
