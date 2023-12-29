@@ -32,8 +32,8 @@ const App = () => {
       })
   }, []);
 
-  const showNotification = (message) => {
-    setNotification(message);
+  const showNotification = (text) => {
+    setNotification(text);
     setTimeout(() => {
       setNotification(null);
     }, 4000);
@@ -59,12 +59,17 @@ const App = () => {
             ));
             setNewNumber('');
             setNewName('');
-            showNotification(`${newName} number updated successfully.`);
+            showNotification(`${newName} number updated successfully.`, 'notification');
+            showNotification({message: `${newName} number updated successfully.`, type: 'notification'})
           })
           .catch(error => {
-            console.error("Error updating person:", error);
+            showNotification({message: `Information of ${newName} has already been removed from the server!`, type: 'error'})
+            setNewNumber('');
+            setNewName('');
+            console.error('Error updating person:', error);
           });
       }
+
     } else {
       personService
         .create(personObject)
@@ -72,7 +77,7 @@ const App = () => {
         setPersons(persons.concat(response))
         setNewNumber('');
         setNewName('');
-        showNotification(`Person ${newName} added successfully.`);
+        showNotification({message: `Person ${newName} added successfully.`, type: 'notification'});
       })
     }
   };
@@ -90,9 +95,9 @@ const App = () => {
         .then(() => {
           setPersons(prevPersons => prevPersons.filter(p => p.id !== person.id));
           setShowFiltered(prevFiltered => prevFiltered.filter(p => p.id !== person.id));
-          showNotification(`${person.name} was deleted from the phonebook.`);
+          showNotification({message: `${person.name} was deleted from the phonebook!`, type: 'notification'})
         })
-        .catch(error => {console.error("Error deleting person:", error);
+        .catch(error => {console.error('Error deleting person:', error);
         });
     }
   };
@@ -109,7 +114,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification text={notification} />
       <Filter setShowFiltered={setShowFiltered} handlefilterChange={handlefilterChange}/>
       <h2>add a new</h2>
       <AddNewPerson 
