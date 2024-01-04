@@ -25,7 +25,7 @@ const Country = ({country}) => {
   )
 }
 
-const Countries = ({countriesToShow}) => {
+const Countries = ({countriesToShow, countryClick}) => {
   return (
     <div>
     {countriesToShow.length > 10 && 
@@ -34,10 +34,15 @@ const Countries = ({countriesToShow}) => {
 
     {countriesToShow.length > 1 && countriesToShow.length <= 10 &&
       countriesToShow.map(country => 
-      <div key={country.name.common}>{country.name.common} 
+      <div key={country.name.common}>{country.name.common}
+
+      <button 
+      key={country.name.common} onClick={() => countryClick(country)}>show
+      </button>
+
     </div>)
     }
-    
+
     {countriesToShow.length === 1 &&
       countriesToShow.map(country =>
       <div key={country.name.common}><Country country={country}/></div>)
@@ -71,13 +76,13 @@ const App = () => {
   };
   
   const handleCountryShow = (country) => {
-    setCountries(country);
+    setCountries([country]);
   };
 
   return (
     <div>
-      <Filter newFilter={Countryfilter} handleFilterChange={handleFilterChange} />
-      <Countries countriesToShow={countries} handleClick={handleCountryShow} />
+      <Filter Countryfilter={Countryfilter} handleFilterChange={handleFilterChange} />
+      <Countries countriesToShow={countries} countryClick={handleCountryShow} />
     </div>
   );
   
