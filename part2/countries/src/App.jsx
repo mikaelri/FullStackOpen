@@ -22,7 +22,6 @@ const Country = ({country}) => {
         setWeather(response.data.main)
         setWind(response.data.wind)
         setPicture(response.data.weather[0])
-        console.log('API response:', response.data);
       })
   }, []);
 
