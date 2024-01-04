@@ -17,7 +17,9 @@ const Country = ({country}) => {
     <div>area {country.area}</div>
 
     <h2>languages:</h2>
-    <ul>{Object.values(country.languages).map(language => <li key={language}>{language}</li>)}</ul>
+    <ul>{Object.values(country.languages).map(language => (
+      <li key={language}>{language}</li>))}
+    </ul>
     <img src={country.flags.png} alt="Country flag" height={100} width={150}/>
   </div>
   )
@@ -58,8 +60,14 @@ const App = () => {
   }, []);
 
   const handleFilterChange = (event) => {
-    setCountries(showAll.filter(country => country.name.common.toLowerCase().includes(Countryfilter.toLowerCase())))
-    setCountryFilter(event.target.value);
+    const newFilter = event.target.value
+    setCountryFilter(newFilter)
+
+    if (newFilter === '') {
+      setCountries([])
+    } else {
+    setCountries(showAll.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase())))
+    }
   };
   
   const handleCountryShow = (country) => {
