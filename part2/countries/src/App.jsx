@@ -10,6 +10,22 @@ const Filter = ({filter, handleFilterChange}) => {
 }
 
 const Country = ({country}) => {
+  const [weather, setWeather] = useState([])
+  const [wind, setWind] = useState([])
+  const [picture, setPicture] = useState([])
+  const API_key = import.meta.env.REACT_APP_API_KEY
+
+  useEffect(() => {
+    axios
+      .get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${API_key}`)
+      .then((response) => {
+        setWeather(response.data.main)
+        setWind(response.data.wind)
+        setPicture(response.data.weather[0])
+        console.log('API response:', response.data);
+      })
+  }, []);
+
   return (
   <div>
     <h1>{country.name.common}</h1>
@@ -21,9 +37,20 @@ const Country = ({country}) => {
       <li key={language}>{language}</li>))}
     </ul>
     <img src={country.flags.png} alt="Country flag" height={100} width={150}/>
+
+    {weather && wind && picture && (
+      <div>
+        <h2>Weather in {country.capital}</h2>
+        <div>temperature {weather} Celcius</div>
+        <img src={`https://openweathermap.org/img/wn/${picture}@2x.png`} alt='weather'></img>
+        <div>wind: {wind} m/s </div>
+      </div>
+      )}
   </div>
   )
 }
+
+
 
 const Countries = ({countriesToShow, countryClick}) => {
   return (
@@ -39,8 +66,8 @@ const Countries = ({countriesToShow, countryClick}) => {
       <button 
       key={country.name.common} onClick={() => countryClick(country)}>show
       </button>
-
-    </div>)
+    </div>
+    )
     }
 
     {countriesToShow.length === 1 &&
