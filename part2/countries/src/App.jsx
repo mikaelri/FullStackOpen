@@ -1,72 +1,75 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const App = () => {
-  const [countries, setCountries] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState(null);
+const Filter = ({filter, handleFilterChange}) => {
+  return (
+    <div>
+      Find countries <input value={filter} onChange={handleFilterChange} />
+    </div>
+  )
+}
 
-  useEffect(() => {
-    if (filter.trim() === '') {
-      setCountries([]);
-      setSelectedCountry(null);
-      return;
+const Country = ({country}) => {
+  return (
+  <div>
+    <h1>{country.name.common}</h1>
+    <div>capital {country.capital}</div>
+    <div>area {country.area}</div>
+
+    <h2>languages:</h2>
+    <ul>{Object.values(country.languages).map(language => <li key={language}>{language}</li>)}</ul>
+    <img src={country.flags.png} alt="Country flag" height={100} width={150}/>
+  </div>
+  )
+}
+
+const Countries = ({countriesToShow}) => {
+  return (
+    <div>
+    {countriesToShow.length > 10 && 
+    <p>Too many matches, specify another filter</p>
     }
 
+    {countriesToShow.length > 1 && countriesToShow.length <= 10 &&
+      countriesToShow.map(country => 
+      <div key={country.name.common}>{country.name.common} 
+    </div>)
+    }
+    
+    {countriesToShow.length === 1 &&
+      countriesToShow.map(country =>
+      <div key={country.name.common}><Country country={country}/></div>)
+    }
+    </div>
+)
+}
+
+const App = () => {
+  const [countries, setCountries] = useState([]);
+  const [Countryfilter, setCountryFilter] = useState('');
+  const [showAll, setShowAll] = useState([]);
+
+  useEffect(() => {
     axios
-      .get(`https://restcountries.com/v3.1/name/${filter}`)
+      .get('https://restcountries.com/v3.1/all')
       .then((response) => {
-        setCountries(response.data);
-        setSelectedCountry(null);
+        setShowAll(response.data);
       })
-      .catch((error) => {
-        console.error('Error in searching countries:', error);
-      });
-  }, [filter]);
+  }, []);
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+    setCountries(showAll.filter(country => country.name.common.toLowerCase().includes(Countryfilter.toLowerCase())))
+    setCountryFilter(event.target.value);
   };
-
-  const handleCountryClick = (country) => {
-    setSelectedCountry(country);
+  
+  const handleCountryShow = (country) => {
+    setCountries(country);
   };
 
   return (
     <div>
-      <div>
-        <form>
-          Find countries <input value={filter} onChange={handleFilterChange} />
-        </form>
-      </div>
-  
-      {countries.length === 1 ? (
-        <div>
-          {countries.map((country) => (
-            <div key={country.name.common} onClick={() => handleCountryClick(country)}>
-              <h1>{country.name.common}</h1>
-              <div>capital {country.capital}</div>
-              <div>area {country.area}</div>
-              <h2>languages: </h2>
-            </div>
-          ))}
-        </div>
-      ) : null}
-  
-      {countries.length > 1 && countries.length <= 10 ? (
-        <div>
-          {countries.map((country) => (
-            <div key={country.name.common} onClick={() => handleCountryClick(country)}>
-              {country.name.common}
-            </div>
-          ))}
-        </div>
-      ) : null}
-  
-      {countries.length > 10 ? (
-        <p>Too many matches, specify another filter</p>
-      ) : null}
+      <Filter newFilter={Countryfilter} handleFilterChange={handleFilterChange} />
+      <Countries countriesToShow={countries} handleClick={handleCountryShow} />
     </div>
   );
   
