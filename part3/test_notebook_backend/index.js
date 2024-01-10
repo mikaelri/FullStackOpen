@@ -14,17 +14,18 @@ const requestLogger = (request, response, next) => {
 }
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
+  console.log('Unknown endpoint:', request.method, request.path);
+  response.status(404).send({ error: 'unknown endpoint' });
 }
 
 app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
+app.use(express.static('dist'))
 app.use(express.static('build'))
 
 let notes = [
 ]
-
 
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
