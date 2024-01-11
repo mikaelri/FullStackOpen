@@ -79,6 +79,12 @@ const App = () => {
         setNewName('');
         showNotification({message: `Person ${newName} added successfully.`, type: 'notification'});
       })
+      .catch(error => {
+        showNotification({message: error.response.data.error, type: 'error'});
+        setNewNumber('');
+        setNewName('');
+        console.log(error.response.data)
+      })
     }
   };
 
