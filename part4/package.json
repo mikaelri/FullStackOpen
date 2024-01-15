@@ -13,7 +13,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+    "lint": "eslint .",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,11 @@
   },
   "homepage": "https://github.com/mikaelri/FullStackOpen#readme",
   "devDependencies": {
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
