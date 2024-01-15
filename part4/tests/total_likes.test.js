@@ -3,7 +3,7 @@ const { listWithoutBlogs, listWithOneBlog, listWithManyBlogs } = require('./blog
 
 describe('total likes', () => {
 
-  test('of empty list is zero', () => {
+  test('empty list is zero', () => {
     const result = listHelper.totalLikes(listWithoutBlogs)
     expect(result).toBe(0)
   })
@@ -17,11 +17,8 @@ describe('total likes', () => {
     const result = listHelper.totalLikes(listWithManyBlogs)
     expect(result).toBe(36)
   })
-})
 
-describe('of most likes returns correctly', () => {
-
-  test('most likes', () => {
+  test('blog with most likes is found correctly', () => {
     const result = listHelper.favoriteBlog(listWithManyBlogs)
     expect(result).toEqual(
       {
@@ -29,6 +26,16 @@ describe('of most likes returns correctly', () => {
         author: 'Edsger W. Dijkstra',
         likes: 12,
         url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html'
+      }
+    )
+  })
+
+  test('author with most blogs is found correctly', () => {
+    const result = listHelper.mostBlogs(listWithManyBlogs)
+    expect(result).toEqual(
+      {
+        author: 'Robert C. Martin',
+        blogs: 3,
       }
     )
   })
