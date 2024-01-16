@@ -3,29 +3,11 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-
-const initialBlogs = [
-  {
-    title: 'Testing title',
-    author: 'Test Tester',
-    url: 'ThisIsTestUrl.com',
-    likes: 3,
-  },
-
-  {
-    title: 'Another Testing title',
-    author: 'Another Test Tester',
-    url: 'AnotherThisIsTestUrl.com',
-    likes: 5,
-  }
-]
+const helper = require('./blogs_api_test_helper')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(initialBlogs[0])
-  await blogObject.save()
-  blogObject = new Blog(initialBlogs[1])
-  await blogObject.save()
+  await Blog.insertMany(helper.initialBlogs)
 })
 
 test('blogs are returned as json', async () => {
@@ -37,7 +19,7 @@ test('blogs are returned as json', async () => {
 
 test('correct amount of blogs is found from the list of blogs', async () => {
   const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initialBlogs.length)
+  expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
 test('blogs have a field named "id"', async () => {
@@ -46,6 +28,27 @@ test('blogs have a field named "id"', async () => {
     expect(blog.id).toBeDefined()
   })
 
+})
+
+test('a valid blog can be added', async () => {
+  const newBlog = {
+    title: 'Some random testing title',
+    author: 'Some random Tester',
+    url: 'somerandomurl.com',
+    likes: 16,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.title)
+
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+  expect(contents).toContain('Some random testing title')
 })
 
 afterAll(async () => {
