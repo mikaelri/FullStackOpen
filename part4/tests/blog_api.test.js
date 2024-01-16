@@ -11,7 +11,7 @@ beforeEach(async () => {
 })
 
 
-describe('API tests', () => {
+describe('when there is some blogs saved', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -23,15 +23,19 @@ describe('API tests', () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
+})
 
+describe('when viewing blogs', () => {
   test('blogs have a field named "id"', async () => {
     const response = await api.get('/api/blogs')
     response.body.forEach(blog => {
       expect(blog.id).toBeDefined()
     })
   })
+})
 
-  test('a valid blog can be added', async () => {
+describe('adding a new blog', () => {
+  test('valid blog can be added', async () => {
     const newBlog = {
       title: 'Some random testing title',
       author: 'Some random Tester',
@@ -52,7 +56,7 @@ describe('API tests', () => {
     expect(contents).toContain('Some random testing title')
   })
 
-  test('if likes is not added to the body it is by default 0', async () => {
+  test('if "likes" is not added to the body it is by default 0', async () => {
     const newBlog = {
       title: 'Some random testing title',
       author: 'Some random Tester',
@@ -72,7 +76,7 @@ describe('API tests', () => {
     expect(contents).toContain(0)
   })
 
-  test('if title is not added, response is 400 error', async () => {
+  test('if "title" is not added, response is 400 error', async () => {
     const newBlogWithoutTitle = {
       author: 'Some random Tester',
       url: 'somerandomurl.com',
@@ -87,7 +91,7 @@ describe('API tests', () => {
     expect(blogsInDb).toHaveLength(helper.initialBlogs.length)
   })
 
-  test('if url is not added, response is 400 error', async () => {
+  test('if "url" is not added, response is 400 error', async () => {
     const newBlogWithoutUrl = {
       title: 'Some random title',
       author: 'Some random Tester',
