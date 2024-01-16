@@ -51,6 +51,26 @@ test('a valid blog can be added', async () => {
   expect(contents).toContain('Some random testing title')
 })
 
+test('if likes is not added it is by default 0', async () => {
+  const newBlog = {
+    title: 'Some random testing title',
+    author: 'Some random Tester',
+    url: 'somerandomurl.com',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.likes)
+
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
+  expect(contents).toContain(0)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
