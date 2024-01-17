@@ -125,7 +125,7 @@ describe('adding a new blog', () => {
   })
 
   describe('updating a blog', () => {
-    test('is succesful with status code 200 if id is valid', async () => {
+    test('is succesful with status code 200 if update is valid', async () => {
       const blogsAtStart = await api.get('/api/blogs')
       const blogIdToUpdate = blogsAtStart.body[0].id
 
@@ -147,6 +147,29 @@ describe('adding a new blog', () => {
 
       expect(response.body).toHaveLength(blogsAtStart.body.length)
       expect(contents).toContain('This is one test for put method')
+    })
+  })
+
+  describe('updating a blog', () => {
+    test('is failed with status code 400 if the update is invalid (i.e. missing url)', async () => {
+      const blogsAtStart = await api.get('/api/blogs')
+      const blogIdToUpdate = blogsAtStart.body[0].id
+
+      const blogUpdated =
+      {
+        title: 'This is one test for put method',
+        author: 'Updated author put test',
+        url: '',
+        likes: 10
+      }
+
+      await api
+        .put(`/api/blogs/${blogIdToUpdate}`)
+        .send(blogUpdated)
+        .expect(400)
+
+      const response = await api.get('/api/blogs')
+      expect(response.body).toHaveLength(blogsAtStart.body.length)
     })
   })
 
