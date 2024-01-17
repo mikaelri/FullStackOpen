@@ -124,6 +124,32 @@ describe('adding a new blog', () => {
     })
   })
 
+  describe('updating a blog', () => {
+    test('is succesful with status code 200 if id is valid', async () => {
+      const blogsAtStart = await api.get('/api/blogs')
+      const blogIdToUpdate = blogsAtStart.body[0].id
+
+      const blogUpdated =
+        {
+          title: 'This is one test for put method',
+          author: 'Updated author put test',
+          url: 'ThisIsAUpdate.com',
+          likes: 10
+        }
+
+      await api
+        .put(`/api/blogs/${blogIdToUpdate}`)
+        .send(blogUpdated)
+        .expect(200)
+
+      const response = await api.get('/api/blogs')
+      const contents = response.body.map(r => r.title)
+
+      expect(response.body).toHaveLength(blogsAtStart.body.length)
+      expect(contents).toContain('This is one test for put method')
+    })
+  })
+
   afterAll(async () => {
     await mongoose.connection.close()
   })
