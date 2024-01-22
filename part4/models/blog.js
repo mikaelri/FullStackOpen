@@ -5,20 +5,21 @@ const blogSchema = mongoose.Schema({
     type: String,
     required: [true, 'Title is a required field'],
   },
-
   author: {
     type: String,
     required: false
   },
-
   url: {
     type: String,
     required: [true, 'url is a required field'],
   },
-
   likes: {
     type: Number,
     required: false
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 })
 
