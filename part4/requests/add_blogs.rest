@@ -5,5 +5,6 @@ Content-Type: application/json
 "title": "This is a new test and I check if this works", 
 "author": "Test author",
 "url": "ThisIsTooTestUrl.com",
-"likes": 5
+"likes": 15,
+"userId": "65ae54ac951d40aac88304bd"
 }
