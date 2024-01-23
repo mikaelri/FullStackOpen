@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
-    .find({}).populate('user', { username: 1, name: 1 })
+    .find({}).populate('user', { username: 1, name: 1, id: 1 })
   response.json(blogs)
 })
 
@@ -35,8 +35,23 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+
+  const id = request.params.id
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const userid = await User.findById(decodedToken.id)
+
+  const blog = await Blog.findById(id)
+
+  if (blog.user.toString() === userid.id.toString() ) {
+    await Blog.findByIdAndDelete(id)
+    response.status(204).end()
+  } else {
+    response.status(401).json({ error: 'user id not authorized to delete a blog' })
+  }
 })
 
 blogsRouter.put('/:id', async (request, response, next) => {
