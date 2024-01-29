@@ -1,8 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-# Authorization: Bearer add token
+# Authorization: Bearer add token from login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgdXNlciIsImlkIjoiNjVhZmFiYzIwODI2ZGFjZWM2NWM0NGM1IiwiaWF0IjoxNzA2NTE5NzY5LCJleHAiOjE3MDY1MjMzNjl9.YKcflw2dvmIX6T9FDCxzk1UqvA_RCBDz3Zk5FQ6uzEQ
+
 {
-"title": "This is a new test and I check if this works still", 
+"title": "This is a test for test use22222r", 
 "author": "Test author",
 "url": "ThisIsTooTestUrl.com",
 "likes": 15,
