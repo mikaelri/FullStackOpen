@@ -12,6 +12,10 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   const user = request.user
 
+  if (!user) {
+    return response.status(401).json('Unauthorized: token invalid')
+  }
+
   const blog = new Blog ({
     title: body.title,
     author: body.author,
@@ -24,7 +28,7 @@ blogsRouter.post('/', async (request, response, next) => {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.json(savedBlog)
+  response.status(201).json(savedBlog)
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
