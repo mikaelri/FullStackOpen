@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+# Authorization: Bearer add token from login
+
+{
+"title": "This is a test for test use22a222r", 
+"author": "Test author",
+"url": "ThisIsTooTestUrl.com",
+"likes": 15,
+"userId": "65afabc20826dacec65c44c5"
+}

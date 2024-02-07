@@ -1,0 +1,5 @@
+DELETE http://localhost:3003/api/blogs/65b7b36cbbeb9cadd89fc99a
+Content-Type: application/json
+# Authorization: Bearer add token from login
+# use existing blog id for the url to check if the method works
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgdXNlciIsImlkIjoiNjVhZmFiYzIwODI2ZGFjZWM2NWM0NGM1IiwiaWF0IjoxNzA2NTM3ODE5LCJleHAiOjE3MDY1NDE0MTl9.-7rW3n5ZYTk7ChEtTLyL6aoUd-C3vl0WTTI5KeL1O14
