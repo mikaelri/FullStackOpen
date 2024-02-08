@@ -2,17 +2,21 @@ import React from 'react'
 import { useState } from 'react'
 import loginService from '../services/login'
 
-const LoginForm = ({ setUser }) => {
+
+const LoginForm = ({ setUser, blogService }) => {
     const [username, setUsername] = useState('') 
     const [password, setPassword] = useState('') 
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleLogin = async (event) => {
-        event.preventDefault()
-    try {
+      event.preventDefault()
+      try {
         const user = await loginService.login({
           username, password,
         })
+        window.localStorage.setItem(
+          'loggedBlogappUser', JSON.stringify(user)
+        ) 
 
         setUser(user)
         setUsername('')
@@ -23,9 +27,10 @@ const LoginForm = ({ setUser }) => {
 }
 
     return (
+      <div>
+        <h2>log in to application</h2>
         <form onSubmit={handleLogin}>
         <div>
-          <h2>log in to application</h2>
           username
           <input
             type="text"
@@ -45,8 +50,8 @@ const LoginForm = ({ setUser }) => {
           />
         </div>
         <button type="submit">login</button>
-  
-      </form>      
+      </form>
+      </div>   
     )
 }
 
