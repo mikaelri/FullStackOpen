@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import Blog from './components/GetBlogs'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import LogOutButton from './components/LogOut'
+import AddNewBlog from './components/AddBlogs'
 
 
 const App = () => {
@@ -20,13 +21,12 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
   if (user === null) {
-    return (
-      <LoginForm setUser={ setUser } />
-    )
+    return (<LoginForm setUser={ setUser }/>)
   } else {
     return (
       <div>
@@ -35,6 +35,7 @@ const App = () => {
           {user.name} logged in <LogOutButton setUser={setUser}/>
         </p>
       <Blog blogs={ blogs } />
+      <AddNewBlog blogs={ blogs } setBlogs={ setBlogs }/>
       </div>
     )
   }
