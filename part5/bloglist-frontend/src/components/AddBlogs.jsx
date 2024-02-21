@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import blogservice from '../services/blogs'
 
-const AddNewBlog = ({ blogs, setBlogs, handleMessage }) => {
+const AddNewBlog = ({ newblog, setNewBlogs, handleBlogMessage }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -20,8 +20,8 @@ const AddNewBlog = ({ blogs, setBlogs, handleMessage }) => {
             setTitle('')
             setAuthor('')
             setUrl('')
-            setBlogs(blogs.concat(returnedBlog))
-            handleMessage(`blog with title ${blogObject.title} by author ${blogObject.author} added` 
+            setNewBlogs(newblog.concat(returnedBlog))
+            handleBlogMessage(`blog with title ${blogObject.title} by author ${blogObject.author} added` 
             ,'success');
         } catch (exception) {
             console.error(exception)

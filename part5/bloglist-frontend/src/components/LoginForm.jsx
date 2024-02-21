@@ -4,7 +4,7 @@ import loginService from '../services/login'
 import blogService from '../services/blogs'
 
 
-const LoginForm = ({ setUser, handleMessage }) => {
+const LoginForm = ({ setLoginUser, handleLoginMessage }) => {
     const [username, setUsername] = useState('') 
     const [password, setPassword] = useState('') 
 
@@ -14,12 +14,12 @@ const LoginForm = ({ setUser, handleMessage }) => {
         const user = await loginService.login({ username, password })
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user))
-        setUser(user)
+        setLoginUser(user)
         blogService.setToken(user.token)
         setUsername('')
         setPassword('')
     } catch (exception) {
-        handleMessage(`wrong credentials, check your username and password`, 'error')
+      handleLoginMessage(`wrong credentials, check your username and password`, 'error')
     }
 }
 

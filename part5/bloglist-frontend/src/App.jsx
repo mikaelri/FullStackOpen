@@ -28,7 +28,7 @@ const App = () => {
     }
   }, [])
 
-  const handleNotificationMessage = (message, type) => {
+  const handleMessage = (message, type) => {
     setNotification(message)
     setNotificationType(type)
     setTimeout(() => {
@@ -40,7 +40,7 @@ const App = () => {
     return (
     <div>
       <Notification message={notification} type={notificationType} />
-      <LoginForm setUser={setUser} handleMessage={handleNotificationMessage}/>
+      <LoginForm setLoginUser={setUser} handleLoginMessage={handleMessage}/>
     </div>
     )
   } else {
@@ -50,7 +50,7 @@ const App = () => {
         <h2>blogs</h2>
         <p>{user.name} logged in <LogOutButton setUser={setUser}/></p>
       <Blog blogs={ blogs } />
-      <AddNewBlog blogs={blogs} setBlogs={setBlogs} handleMessage={handleNotificationMessage}/>
+      <AddNewBlog newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
       </div>
     )
   }
