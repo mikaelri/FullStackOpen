@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/GetBlogs'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import LogOutButton from './components/LogOut'
 import AddNewBlog from './components/AddBlogs'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 
 const App = () => {
@@ -36,6 +37,8 @@ const App = () => {
     }, 7000)
   }
 
+  const blogFormRef = useRef()
+
   if (user === null) {
     return (
     <div>
@@ -49,8 +52,14 @@ const App = () => {
         <Notification message={notification} type={notificationType} />
         <h2>blogs</h2>
         <p>{user.name} logged in <LogOutButton setUser={setUser}/></p>
-      <Blog blogs={ blogs } />
-      <AddNewBlog newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
+
+        <div>
+          <Togglable buttonLabel='new blog' ref={blogFormRef}>
+          <AddNewBlog blogFormRef={blogFormRef} newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
+          </Togglable>
+          <Blog blogs={ blogs }/>
+
+        </div>
       </div>
     )
   }
