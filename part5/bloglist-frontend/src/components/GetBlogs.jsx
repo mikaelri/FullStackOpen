@@ -31,10 +31,10 @@ const Blog = ({ blogs}) => {
               <div>
                 {blog.url}
                 <br />
-               {blog.likes} <button>like</button>
-               <br />
-               { blog.user.name}
-                </div>
+                {blog.likes} <button>like</button>
+                <br />
+                {blog.user.name}
+              </div>
             )}
           </div>
         );
