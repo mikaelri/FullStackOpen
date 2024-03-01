@@ -3,7 +3,7 @@ import Blog from './components/GetBlogs'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import LogOutButton from './components/LogOut'
-import AddNewBlog from './components/AddBlogs'
+import AddNewBlog from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
@@ -13,6 +13,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
   const [notificationType, setNotificationType] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,8 +38,6 @@ const App = () => {
       setNotification(null)
     }, 7000)
   }
-
-  const blogFormRef = useRef()
 
   if (user === null) {
     return (
