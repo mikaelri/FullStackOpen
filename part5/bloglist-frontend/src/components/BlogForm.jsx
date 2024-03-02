@@ -20,9 +20,14 @@ const AddNewBlog = ({ newblog, setNewBlogs, handleBlogMessage, blogFormRef }) =>
             setAuthor('')
             setUrl('')
             setNewBlogs(newblog.concat(returnedBlog))
-            handleBlogMessage(`blog with title ${blogObject.title} by author ${blogObject.author} added` 
-            ,'success')
+            handleBlogMessage(`blog with title ${blogObject.title} by author ${blogObject.author} 
+            added`, 'success')
             blogFormRef.current.toggleVisibility()
+
+            const loggedUser = window.localStorage.getItem('loggedBlogappUser')
+            const user = JSON.parse(loggedUser)
+            returnedBlog.user = user
+
         } catch (exception) {
             console.error(exception)
         }

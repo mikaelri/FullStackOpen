@@ -43,7 +43,7 @@ const App = () => {
     return (
     <div>
       <Notification message={notification} type={notificationType} />
-      <LoginForm setLoginUser={setUser} handleLoginMessage={handleMessage}/>
+      <LoginForm LoginUser={setUser} handleLoginMessage={handleMessage}/>
     </div>
     )
   } else {

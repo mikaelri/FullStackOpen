@@ -4,7 +4,7 @@ import loginService from '../services/login'
 import blogService from '../services/blogs'
 
 
-const LoginForm = ({ setLoginUser, handleLoginMessage }) => {
+const LoginForm = ({ LoginUser, handleLoginMessage }) => {
     const [username, setUsername] = useState('') 
     const [password, setPassword] = useState('') 
 
@@ -14,7 +14,7 @@ const LoginForm = ({ setLoginUser, handleLoginMessage }) => {
         const user = await loginService.login({ username, password })
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user))
-        setLoginUser(user)
+          LoginUser(user)
         blogService.setToken(user.token)
         setUsername('')
         setPassword('')
