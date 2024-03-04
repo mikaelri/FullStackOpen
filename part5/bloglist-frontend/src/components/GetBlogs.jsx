@@ -30,14 +30,11 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
       user: blog.user.id
     }
 
-    // 5.9 pitäisi olla valmis, tsekkaa vaan että toimii, se on tässä alla ja blogs.js:ssä update-funktio ja app.jsx:ssä uusi async await create blog //
-
-
     try {
       const returnedUpdatedBlog = await blogservice.update(blog.id, updatedBlogObject)
 
       const updatedBlogs = blogs.map((b) => b.id === returnedUpdatedBlog.id ? returnedUpdatedBlog: b)
-      
+
       setNewBlogs(updatedBlogs)
       handleBlogMessage(`blog with title ${updatedBlogObject.title} liked`, 'success')
     }
