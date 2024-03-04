@@ -17,10 +17,12 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+    const returnBlogs = async () => {
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    }
+    returnBlogs()
+  },[])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -57,8 +59,7 @@ const App = () => {
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
           <AddNewBlog blogFormRef={blogFormRef} newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
           </Togglable>
-          <Blog blogs={ blogs }/>
-
+          <Blog blogs={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
         </div>
       </div>
     )
