@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import blogservice from '../services/blogs'
 
-const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
+const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
   const [visible, setVisible] = useState({})
 
   const blogStyle = {
@@ -65,6 +65,8 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
     <div>
         {sortedBlogs.map(blog => {
         const isVisible = visible[blog.id]
+        const isBlogOwner = blog.user.name === user.name
+
         return (
           <div key={blog.id}style={blogStyle}>
             {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>{isVisible ? 'hide' : 'view'}
@@ -77,9 +79,12 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
                 likes: {blog.likes} <button onClick={(event) => updateLikes(event, blog)}>like</button>
                 <br />
                 {blog.user.name}
-                <div>
+
+                {isBlogOwner && 
+                <div> 
                   <button onClick={(event) => handleBlogDelete(event, blog)}>remove</button>
                 </div>
+                }                
               </div>
             )}
           </div>
