@@ -20,6 +20,8 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
     }))
   }
 
+  const sortedBlogs = [...blogs].sort((blogA, blogB) => blogB.likes - blogA.likes)
+
   const updateLikes = async (event, blog) => {
     event.preventDefault()
     const updatedBlogObject = {
@@ -42,12 +44,11 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
       console.error('Error updating blog:', exception);
       handleBlogMessage(`unable to add like for the blog with title ${updatedBlogObject.title}`, 'error')
     }
-    
   }
 
   return (
     <div>
-        {blogs.map(blog => {
+        {sortedBlogs.map(blog => {
         const isVisible = visible[blog.id]
         return (
           <div key={blog.id}style={blogStyle}>
