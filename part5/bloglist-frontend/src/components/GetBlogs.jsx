@@ -4,7 +4,6 @@ import blogservice from '../services/blogs'
 const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
   const [visible, setVisible] = useState({})
 
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 3,
@@ -34,7 +33,6 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
 
     try {
       const returnedUpdatedBlog = await blogservice.update(blog.id, updatedBlogObject)
-
       const updatedBlogs = blogs.map((b) => b.id === returnedUpdatedBlog.id ? returnedUpdatedBlog: b)
 
       setNewBlogs(updatedBlogs)
@@ -43,6 +41,23 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
     catch (exception) {
       console.error('Error updating blog:', exception);
       handleBlogMessage(`unable to add like for the blog with title ${updatedBlogObject.title}`, 'error')
+    }
+  }
+
+  const handleBlogDelete = async (event, blog) => {
+    event.preventDefault()
+
+    try {
+      if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+        await blogservice.remove(blog.id)
+        const updatedBlogs = blogs.filter(b => b.id !== blog.id)
+        setNewBlogs(updatedBlogs)
+        handleBlogMessage(`Removed blog ${blog.title} by ${blog.author}`, 'success')
+      }
+    }
+    catch (exception) {
+      console.error('Error updating blog:', exception);
+      handleBlogMessage(`Unable to delete blog ${blog.title}`, 'error')
     }
   }
 
@@ -62,6 +77,9 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage }) => {
                 likes: {blog.likes} <button onClick={(event) => updateLikes(event, blog)}>like</button>
                 <br />
                 {blog.user.name}
+                <div>
+                  <button onClick={(event) => handleBlogDelete(event, blog)}>remove</button>
+                </div>
               </div>
             )}
           </div>
