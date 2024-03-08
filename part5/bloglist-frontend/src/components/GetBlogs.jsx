@@ -28,11 +28,13 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
       author: blog.author,
       url: blog.url,
       likes: blog.likes + 1,
-      user: blog.user.id
+      user: blog.user
     }
 
     try {
-      const returnedUpdatedBlog = await blogservice.update(blog.id, updatedBlogObject)
+      let returnedUpdatedBlog = await blogservice.update(blog.id, updatedBlogObject)
+      returnedUpdatedBlog = {...returnedUpdatedBlog, user: blog.user}
+      
       const updatedBlogs = blogs.map((b) => b.id === returnedUpdatedBlog.id ? returnedUpdatedBlog: b)
 
       setNewBlogs(updatedBlogs)
@@ -51,6 +53,7 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
       if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
         await blogservice.remove(blog.id)
         const updatedBlogs = blogs.filter(b => b.id !== blog.id)
+
         setNewBlogs(updatedBlogs)
         handleBlogMessage(`Removed blog ${blog.title} by ${blog.author}`, 'success')
       }
@@ -67,12 +70,18 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
         const isVisible = visible[blog.id]
         const isBlogOwner = blog.user.name === user.name
 
+        const hideWhenVisible = { display: isVisible ? 'none' : '' }
+        const showWhenVisible = { display: isVisible ? '' : 'none' }
+
         return (
           <div key={blog.id}style={blogStyle}>
-            {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>{isVisible ? 'hide' : 'view'}
-            </button>
+            <div style={hideWhenVisible}>
+            {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>view</button>
+            </div>
 
-            {isVisible && (
+            <div style={showWhenVisible}>
+            {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>hide</button>
+            
               <div>
                 {blog.url}
                 <br />
@@ -84,11 +93,11 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
                 <div> 
                   <button onClick={(event) => handleBlogDelete(event, blog)}>remove</button>
                 </div>
-                }                
+                }
+                </div>
               </div>
-            )}
           </div>
-        );
+        )
       })}
     </div>
   )
