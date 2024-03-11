@@ -76,6 +76,6 @@ describe('Viewing blogs in user page', () => {
     await userEvent.click(likeButton)
     await userEvent.click(likeButton)
 
-    expect(blogservice.update).toHaveBeenCalledTimes(2)
+    expect(blogservice.update.mock.calls).toHaveLength(2)
   })
 })
