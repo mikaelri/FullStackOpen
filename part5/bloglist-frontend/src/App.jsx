@@ -43,10 +43,10 @@ const App = () => {
 
   if (user === null) {
     return (
-    <div>
-      <Notification message={notification} type={notificationType} />
-      <LoginForm LoginUser={setUser} handleLoginMessage={handleMessage}/>
-    </div>
+      <div>
+        <Notification message={notification} type={notificationType} />
+        <LoginForm LoginUser={setUser} handleLoginMessage={handleMessage}/>
+      </div>
     )
   } else {
     return (
@@ -57,7 +57,7 @@ const App = () => {
 
         <div>
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
-          <AddNewBlog blogFormRef={blogFormRef} newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
+            <AddNewBlog blogFormRef={blogFormRef} newblog={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage}/>
           </Togglable>
           <Blog blogs={blogs} setNewBlogs={setBlogs} handleBlogMessage={handleMessage} user={user}/>
         </div>

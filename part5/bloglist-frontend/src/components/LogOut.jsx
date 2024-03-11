@@ -4,10 +4,10 @@ const LogOutButton = ( { setUser }) => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload()
     setUser(null)
-}
-    return (
-        <button onClick={handleLogOut}>Logout</button>
-    )
+  }
+  return (
+    <button onClick={handleLogOut}>Logout</button>
+  )
 }
 
 export default LogOutButton

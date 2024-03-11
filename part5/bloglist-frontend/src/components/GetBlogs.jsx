@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import blogservice from '../services/blogs'
 
 const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
@@ -33,7 +33,7 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
 
     try {
       let returnedUpdatedBlog = await blogservice.update(blog.id, updatedBlogObject)
-      returnedUpdatedBlog = {...returnedUpdatedBlog, user: blog.user}
+      returnedUpdatedBlog = { ...returnedUpdatedBlog, user: blog.user }
       
       const updatedBlogs = blogs.map((b) => b.id === returnedUpdatedBlog.id ? returnedUpdatedBlog: b)
 
@@ -41,7 +41,7 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
       handleBlogMessage(`blog with title ${updatedBlogObject.title} liked`, 'success')
     }
     catch (exception) {
-      console.error('Error updating blog:', exception);
+      console.error('Error updating blog:', exception)
       handleBlogMessage(`unable to add like for the blog with title ${updatedBlogObject.title}`, 'error')
     }
   }
@@ -59,14 +59,14 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
       }
     }
     catch (exception) {
-      console.error('Error updating blog:', exception);
+      console.error('Error updating blog:', exception)
       handleBlogMessage(`Unable to delete blog ${blog.title}`, 'error')
     }
   }
 
   return (
     <div>
-        {sortedBlogs.map(blog => {
+      {sortedBlogs.map(blog => {
         const isVisible = visible[blog.id]
         const isBlogOwner = blog.user.name === user.name
 
@@ -76,11 +76,11 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
         return (
           <div key={blog.id}style={blogStyle}>
             <div style={hideWhenVisible}>
-            {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>view</button>
+              {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>view</button>
             </div>
 
             <div style={showWhenVisible}>
-            {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>hide</button>
+              {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>hide</button>
             
               <div>
                 {blog.url}
@@ -94,8 +94,8 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
                   <button onClick={(event) => handleBlogDelete(event, blog)}>remove</button>
                 </div>
                 }
-                </div>
               </div>
+            </div>
           </div>
         )
       })}

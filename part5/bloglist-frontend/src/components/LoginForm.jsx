@@ -2,31 +2,32 @@ import React from 'react'
 import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 
 const LoginForm = ({ LoginUser, handleLoginMessage }) => {
-    const [username, setUsername] = useState('') 
-    const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('') 
 
-    const handleLogin = async (event) => {
-      event.preventDefault()
-      try {
-        const user = await loginService.login({ username, password })
-        window.localStorage.setItem(
-          'loggedBlogappUser', JSON.stringify(user))
-          LoginUser(user)
-        blogService.setToken(user.token)
-        setUsername('')
-        setPassword('')
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({ username, password })
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user))
+      LoginUser(user)
+      blogService.setToken(user.token)
+      setUsername('')
+      setPassword('')
     } catch (exception) {
-      handleLoginMessage(`wrong credentials, check your username and password`, 'error')
+      handleLoginMessage('wrong credentials, check your username and password', 'error')
     }
-}
+  }
 
-    return (
-      <div>
-        <h2>log in to application</h2>
-        <form onSubmit={handleLogin}>
+  return (
+    <div>
+      <h2>log in to application</h2>
+      <form onSubmit={handleLogin}>
         <div>
           username
           <input
@@ -48,8 +49,13 @@ const LoginForm = ({ LoginUser, handleLoginMessage }) => {
         </div>
         <button type="submit">login</button>
       </form>
-      </div>   
-    )
+    </div>   
+  )
+}
+
+LoginForm.propTypes = {
+  LoginUser: PropTypes.func.isRequired,
+  handleLoginMessage: PropTypes.func.isRequired
 }
 
 export default LoginForm
