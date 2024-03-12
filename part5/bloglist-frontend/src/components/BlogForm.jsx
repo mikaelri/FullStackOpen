@@ -38,17 +38,20 @@ const AddNewBlog = ({ newblog, setNewBlogs, handleBlogMessage, blogFormRef }) =>
       <h2>Create new</h2>
       <form onSubmit={createBlog}>
         <div>
-                    title:
+          <label htmlFor='title'>title:</label>
           <input 
+            id='title'
             type='text'
             value={title}
             name='Title' 
             onChange={handleTitleChange}/>
         </div>
+
                 
         <div>
-                    Author:
+          <label htmlFor='author'>author:</label>
           <input 
+            id='author'
             type='text'
             value={author} 
             name='Author'
@@ -56,8 +59,9 @@ const AddNewBlog = ({ newblog, setNewBlogs, handleBlogMessage, blogFormRef }) =>
         </div>
     
         <div>
-                    Url:
+          <label htmlFor='url'>url:</label>
           <input 
+            id='url'
             type='text'
             value={url} 
             name='Url'

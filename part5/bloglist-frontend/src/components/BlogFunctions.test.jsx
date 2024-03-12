@@ -4,10 +4,9 @@ import Blog from './BlogFunctions'
 import blogservice from '../services/blogs'
 import userEvent from '@testing-library/user-event'
 
-
 describe('Viewing blogs in user page', () => {
 
-  const blog = {
+  const mockBlog = {
     title: 'Test Title',
     author: 'Test Author',
     url: 'www.testurl.com',
@@ -25,7 +24,7 @@ describe('Viewing blogs in user page', () => {
   let container
 
   beforeEach(() => {
-    const result = render(<Blog blogs={[blog]} setNewBlogs={mockSetNewBlogs} handleBlogMessage={mockHandleBlogMessage} user={user} />)
+    const result = render(<Blog blogs={[mockBlog]} setNewBlogs={mockSetNewBlogs} handleBlogMessage={mockHandleBlogMessage} user={user} />)
     container = result.container
   })
 
@@ -68,8 +67,8 @@ describe('Viewing blogs in user page', () => {
     // we mock directly the blogservice function to check that the button works
     // other option would be to render the html element and use something like UpdateLikes as props
     blogservice.update = vi.fn().mockResolvedValue({
-      ...blog,
-      likes: blog.likes +1
+      ...mockBlog,
+      likes: mockBlog.likes + 1
     })
 
     const likeButton = screen.getByText('like')
