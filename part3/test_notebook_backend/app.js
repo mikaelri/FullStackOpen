@@ -32,6 +32,18 @@ app.use('/api/notes', notesRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
+// this was the example but somehow it was not working, tried to change the configs etc.
+// if (process.env.NODE_ENV === 'test') {
+//   const testingRouter = require('./controllers/testing')
+//   app.use('/api/testing', testingRouter)
+// }
+
+// for the purpose of training we will continue with (connection works like this):
+const testingRouter = require('./controllers/testing')
+app.use('/api/testing', testingRouter)
+
+console.log('NODE_ENV:', process.env.NODE_ENV)
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
