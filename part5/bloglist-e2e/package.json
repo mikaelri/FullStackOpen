@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:report": "playwright show-report"
+  "test": "cross-env NODE_ENV=test playwright test",
+  "test:report": "cross-env NODE_ENV=test playwright show-report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.42.1",
-    "@types/node": "^20.11.27"
+    "@types/node": "^20.11.27",
+    "cross-env": "^7.0.3"
   }
 }

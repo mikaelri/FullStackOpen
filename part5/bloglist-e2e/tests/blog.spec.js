@@ -28,7 +28,7 @@ describe('Blog app', () => {
     
     test('succeeds with correct credentials', async ({ page }) => {
         await loginWith(page, 'test user', 'Test_Password')
-        await expect(page.getByText('Test Tester logged in')).toBeVisible()
+        await expect(page.getByText('Test User logged in')).toBeVisible()
     })
     test('fails with wrong credentials (both username and password)', async ({ page }) => {
         await loginWith(page, 'test user', 'Wrong_password')
