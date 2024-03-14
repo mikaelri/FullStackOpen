@@ -31,6 +31,7 @@ const LoginForm = ({ LoginUser, handleLoginMessage }) => {
         <div>
           username
           <input
+            data-testid='username'
             type="text"
             value={username}
             name="Username"
@@ -41,6 +42,7 @@ const LoginForm = ({ LoginUser, handleLoginMessage }) => {
         <div>
           password
           <input
+            data-testid='password'
             type="password"
             value={password}
             name="Password"
