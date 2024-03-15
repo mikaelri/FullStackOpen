@@ -75,7 +75,7 @@ const Blog = ({ blogs, setNewBlogs, handleBlogMessage, user }) => {
 
         return (
           <div key={blog.id}style={blogStyle}>
-            <div style={hideWhenVisible} className='blog-overview'>
+            <div style={hideWhenVisible} className='blog-overview' data-testid='blog-overview'>
               {blog.title} {blog.author} <button onClick={() => toggleVisibility(blog.id)}>view</button>
             </div>
 

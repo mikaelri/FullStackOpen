@@ -1,5 +1,5 @@
-const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith } = require('./helper')
+const { test, expect, beforeEach, describe, within } = require('@playwright/test')
+const { loginWith, createBlog} = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -25,7 +25,6 @@ describe('Blog app', () => {
   })
 
   describe('Login', () => {
-    
     test('succeeds with correct credentials', async ({ page }) => {
         await loginWith(page, 'test user', 'Test_Password')
         await expect(page.getByText('Test User logged in')).toBeVisible()
@@ -44,5 +43,19 @@ describe('Blog app', () => {
         await expect(errorDivPassword).toHaveCSS('border-style', 'solid')
         await expect(errorDivPassword).toHaveCSS('color', 'rgb(255, 0, 0)')
     })
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'test user', 'Test_Password')
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await createBlog(page, 'This is a test title', 'Test Author', 'www.testurl.com' )
+    
+      const blogOverview = await page.locator('[data-testid="blog-overview"]')
+      await expect(blogOverview).toContainText('This is a test title Test Author')
+    })
+
+  })
   })
 })
