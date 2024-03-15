@@ -56,7 +56,7 @@ describe('Blog app', () => {
       await expect(blogOverview).toContainText('This is a test title Test Author')
     })
 
-    test('a created blog can be liked and increases to 1 like', async ({ page }) => {
+    test('a new blog can be liked', async ({ page }) => {
       await page.getByRole('button', { name: 'new blog' }).click()
       await createBlog(page, 'This is a test title', 'Test Author', 'www.testurl.com' )
       await page.getByRole('button', { name: 'view' }).click()
@@ -64,7 +64,21 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'like'}).click()
       await expect(page.getByText('likes: 1')).toBeVisible()
     })
+    test('the user created the blog can delete it', async ({ page }) => {
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await createBlog(page, 'This is a test title', 'Test Author', 'www.testurl.com' )
+      await page.getByRole('button', { name: 'view' }).click()
 
+      page.on('dialog', async (dialog) => {
+        expect(dialog.message()).toEqual('Remove blog This is a test title by Test Author?')
+        await dialog.accept()
+      })
+
+      await page.getByRole('button', { name: 'remove'}).click()
+      await page.waitForSelector('text=Removed blog This is a test title by Test Author')
+
+      await expect(page.locator('text=This is a test title Test Author')).not.toBeVisible()
+    })
   })
   })
 })
