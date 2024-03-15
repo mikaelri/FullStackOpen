@@ -90,7 +90,7 @@ describe('Blog app', () => {
       await expect(page.locator('text=This is a test title Test Author')).not.toBeVisible()
     })
 
-    test.only('Only the user created the blog can see the remove-button', async ({ page }) => {
+    test('Only the user created the blog can see the remove-button', async ({ page }) => {
       // create a blog with test user and logout
       await page.getByRole('button', { name: 'new blog' }).click()
       await createBlog(page, 'This is a test title', 'Test Author', 'www.testurl.com' )
@@ -102,6 +102,33 @@ describe('Blog app', () => {
       await loginWith(page, 'another test user', 'Test_Password2')
       await page.getByRole('button', { name: 'view' }).click()
       await expect(page.getByText('remove')).not.toBeVisible()
+    })
+
+    test('Blogs are sorted based on the likes', async ({ page }) => {
+      // create a new blog with the test user and log out
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await createBlog(page, 'This is a test title', 'Test Author', 'www.testurl.com' )
+      await page.getByRole('button', { name: 'logout' }).click()
+    
+      // login with another test user, create a new blog, and open up the first blogs view
+      await loginWith(page, 'another test user', 'Test_Password2')
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await createBlog(page, 'This is another test title', 'Another Test Author', 'www.anothertesturl.com' )
+        
+      // give one like to the another test user's blog and it should move to the top
+      const secondBlog = await page.locator('[data-testid="blog-overview"]').nth(1)
+      await secondBlog.locator('button', { name: 'view' }).click()
+      await page.getByRole('button', { name: 'like'}).click()
+    
+      // check the order so that the "this is another test title Another Test Author" is first
+      const blogOverviewFirst = await page.locator('[data-testid="blog-overview"]').nth(1)
+      await expect(blogOverviewFirst).toContainText('This is a test title Test Author')
+
+      const firstBlog = await page.locator('[data-testid="blog-overview"]').nth(1)
+      await firstBlog.locator('button', { name: 'view' }).click()
+    
+      const blogOverviewSecond = await page.locator('[data-testid="blog-overview"]').nth(0)
+      await expect(blogOverviewSecond).toContainText('This is another test title Another Test Author')
     })
     })
   })
