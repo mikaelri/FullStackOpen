@@ -35,7 +35,7 @@ app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
-// when running 'npm start:test' // for E2E tests
+// when running 'npm run start:test' // for E2E tests
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)
