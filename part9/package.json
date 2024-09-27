@@ -1,0 +1,28 @@
+{
+  "name": "fs_part_9",
+  "version": "1.0.0",
+  "description": "full stack open part 9",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts-node": "ts-node",
+    "multiply": "ts-node multiplier.ts",
+    "calculate": "ts-node calculator.ts", 
+    "calculateBmi": "ts-node bmiCalculator.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikaelri/FullStackOpen.git#main"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikaelri/FullStackOpen/issues"
+  },
+  "homepage": "https://github.com/mikaelri/FullStackOpen/tree/main#readme",
+  "devDependencies": {
+    "@types/node": "^22.7.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
+}
